@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Tasks SYSTEM "Tasks-3.8.dtd">
+<!-- eric4 tasks file for project SXM -->
+<!-- Saved: 2007-10-18, 20:17:25 -->
+<Tasks version="3.8">
+  <Task priority="1" completed="False" bugfix="False">
+    <Description>TODO: only read req'ed page, right now it reads and parses every page up to "index"
+    f = open(filename,'rb')
+    for i in range(index+1):
+        p = read_page(f)
+    
+    im = Data.Image()
+    (im.Name,dummy) = os.path.splitext(os.path.basename(filename))
+    im.ImageType = "Topo"
+    im.d = p['page_data']
+    im.XPos = p['x_coordinate']
+    im.YPos = p['y_coordinate']
+    im.XRes = p['x_size']
+    im.YRes = p['y_size']
+    im.XScale = p['x_scale']
+    im.YScale = p['y_scale']
+    im.ZScale = p['z_scale']
+    im.UBias = p['bias']
+    im.ISet = p['current']
+    return im</Description>
+    <Created>2007-10-18, 20:06:03</Created>
+    <Resource>
+      <Filename>
+        <Name>SM3.py</Name>
+      </Filename>
+      <Linenumber>1</Linenumber>
+    </Resource>
+  </Task>
+</Tasks>
