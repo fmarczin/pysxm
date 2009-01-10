@@ -1,3 +1,5 @@
+#
+# simple testing file - no unit test
 import os
 import SXM
 
