@@ -1,9 +1,21 @@
-#@+leo-ver=4
-#@+node:@file D:\Arbeit\SXM\SXM\Data.py
-#@@language python
-#@@tabwidth -4
-#@+others
-#@+node:Data declarations
+# Copyright 2008 Felix Marczinowski <fmarczin@physnet.uni-hamburg.de>
+#
+# This file is part of PySXM.
+#
+#    PySXM is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#    
+#    PySXM is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#    
+#    You should have received a copy of the GNU General Public License
+#    along with PySXM.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 """Data types and functions.
 @author: fm
 @version: $Rev: 123 $
@@ -14,8 +26,6 @@ import scipy.linalg
 import FileIO
 import pilutil
 
-#@-node:Data declarations
-#@+node:class DataField
 class DataField(object):
     """Base class for physical data.
 
@@ -43,8 +53,6 @@ class DataField(object):
     @ivar dataLoaded:  has the data been read? 
     @type dataLoaded: bool
     """
-    #@    @+others
-    #@+node:__init__
 
     def __init__(self,data=None):
         super(DataField,self).__init__()
@@ -60,8 +68,6 @@ class DataField(object):
         self.dataLoaded = False
         self.Temperature = None       
 
-    #@-node:__init__
-    #@+node:dataChanged
     def dataChanged(self):
         self.updateDataRange()
         try:
@@ -69,8 +75,6 @@ class DataField(object):
         except AttributeError:
             pass
 
-    #@-node:dataChanged
-    #@+node:updateDataRange
     def updateDataRange(self):
         """Update the values of dataMax and dataMin, call this after changing the data."""
         if self.d != None:
@@ -78,24 +82,16 @@ class DataField(object):
             self.dataMin = self.d.min()
         return self
 
-    #@-node:updateDataRange
-    #@+node:setReader
     def setReader(self,reader):
         """Set the reader class."""
         self.Reader = reader()
 
-    #@-node:setReader
-    #@+node:findReader
     def findReader(self):
         """Find a reader class from available format plugins for our filename."""
         reader = FileIO.findReaderForFilename(self.filename)
         self.setReader(reader)
 
-    #@-node:findReader
-    #@+node:loadHeader
     def loadHeader(self,force=False):
-        #@    << docstring >>
-        #@+node:<< docstring >>
         """Load the header.
 
         This function reads the header information from the file given in this 
@@ -109,9 +105,6 @@ class DataField(object):
         @keyword force: Set to True if header should be read even if it was already read before.
         @type force: bool
         """
-        #@nonl
-        #@-node:<< docstring >>
-        #@nl
         if self.Reader == None:
             self.findReader()
         if force or not self.headerLoaded:
@@ -124,11 +117,7 @@ class DataField(object):
                 raise
         return self
 
-    #@-node:loadHeader
-    #@+node:loadData
     def loadData(self,force=False):
-        #@    << docstring >>
-        #@+node:<< docstring >>
         """Load the data.
 
         This function reads the actual data from the file given in this 
@@ -144,9 +133,6 @@ class DataField(object):
         @keyword force: Set to True if data should be read even if it was already read before.
         @type force: bool
         """
-        #@nonl
-        #@-node:<< docstring >>
-        #@nl
         if force or not self.dataLoaded:
             if force or not self.headerLoaded:
                 self.loadHeader(force)
@@ -160,8 +146,6 @@ class DataField(object):
                 raise
         return self
 
-    #@-node:loadData
-    #@+node:load
     def load(self):
         """Read data from file.
 
@@ -170,26 +154,16 @@ class DataField(object):
         self.loadData()
         return self
 
-    #@-node:load
-    #@-others
-#@-node:class DataField
-#@+node:class G1D
 class G1D(DataField):
     """General 1-dimensional data.
 
     This is mainly intended as a base class.
     This class should implement methods common to 1-dimensional data types
     """
-    #@    @+others
-    #@+node:__init__
 
     def __init__(self):
         super(G1D,self).__init__()
 
-    #@-node:__init__
-    #@-others
-#@-node:class G1D
-#@+node:class G2D
 class G2D(DataField):
     """General 2-dimensional data.
 
@@ -201,16 +175,12 @@ class G2D(DataField):
     @ivar YRes: Number of datapoints in Y-direction
     @type YRes: number
     """
-    #@    @+others
-    #@+node:__init__
 
     def __init__(self):
         super(G2D,self).__init__()
         self.XRes = 0
         self.YRes = 0
 
-    #@-node:__init__
-    #@+node:bgRowwiseZOffset
     def bgRowwiseZOffset(self):
         """Subtract each row's mean value from it.
         """
@@ -221,8 +191,6 @@ class G2D(DataField):
         self.updateDataRange()
         return self
 
-    #@-node:bgRowwiseZOffset
-    #@+node:bgColwiseZOffset
     def bgColwiseZOffset(self):
         """Subtract each column's mean value from it.
         """
@@ -233,8 +201,6 @@ class G2D(DataField):
         self.updateDataRange()
         return self
 
-    #@-node:bgColwiseZOffset
-    #@+node:bgPlaneSubtract
     def bgPlaneSubtract(self):
         """Subtract a plane.
 
@@ -256,51 +222,33 @@ class G2D(DataField):
         self.updateDataRange()
         return self
 
-    #@-node:bgPlaneSubtract
-    #@+node:savePNG
     def savePNG(self,cmin=None,cmax=None,pal='grey'):
         self.saveImage(self.filename + '.png', cmin=cmin, cmax=cmax, pal=pal)
 
-    #@-node:savePNG
-    #@+node:saveImage
     def saveImage(self,fname,cmin=None,cmax=None,pal='grey'):
         format = os.path.splitext(fname)[1][1:]
         savefile = open(fname,'wb')
         self.toImage(savefile,format=format,cmin=cmin,cmax=cmax,pal=pal)
         savefile.close()
 
-    #@-node:saveImage
-    #@+node:toImage
     def toImage(self,fobj,format="bmp",cmin=None,cmax=None,pal='grey'):
         img = scipy.misc.pilutil.toimage(self.d,cmin=cmin,cmax=cmax)
         palette = pilutil.stdpal(pal)
         img.putpalette(palette)
         img.save(fobj, format)
 
-    #@-node:toImage
-    #@-others
-#@-node:class G2D
-#@+node:class G3D
 class G3D(DataField):
     """General 3-dimensional data.
 
     This is mainly intended as a base class.
     This class should implement methods common to 3-dimensional data types
     """
-    #@    @+others
-    #@+node:__init__
 
     def __init__(self):
         super(G3D,self).__init__()
 
-    #@-node:__init__
-    #@-others
-#@-node:class G3D
-#@+node:class LockInData
 class LockInData(object):
     """Class for lock-in measurements."""
-    #@    @+others
-    #@+node:__init__
 
     def __init__(self):
         self.LIMod = None #: Lock-In modulation amplitude
@@ -309,27 +257,15 @@ class LockInData(object):
         self.LISens = None #: Lock-In sensitivity
         self.LITau = None #: Lock-In time constant
 
-    #@-node:__init__
-    #@-others
-#@-node:class LockInData
-#@+node:class Spectroscopy
 class Spectroscopy(object):
     """Class for spectroscopy measurements."""
-    #@    @+others
-    #@+node:__init__
     def __init__(self):
         self.SamplesT = None #: samples per curve, trace
         self.SamplesR = None #: samples per curve, retrace
 
-    #@-node:__init__
-    #@-others
-#@-node:class Spectroscopy
-#@+node:class Image
 class Image(G2D,LockInData):
     """Base class for SXM images.
     """
-    #@    @+others
-    #@+node:__init__
 
     def __init__(self):
         super(Image,self).__init__()
@@ -344,27 +280,13 @@ class Image(G2D,LockInData):
         self.ScanSpeed = 0 # nm/s
         self.Angle = 0
 
-    #@-node:__init__
-    #@+node:__repr__
     def __repr__(self):
         return "<SPMImage %s %ix%inm %ix%ipx U:%.2fV I:%.2f1nA %s>" % (self.ImageType,self.XSize,self.YSize,self.XRes,self.YRes,self.UBias,self.ISet,self.Name)
 
-    #@-node:__repr__
-    #@-others
-#@-node:class Image
-#@+node:class SpecField
 class SpecField(G3D,LockInData):
     """Base class for spectroscopy fields.
     """
-    #@    @+others
-    #@+node:__init__
 
     def __init__(self):
         super(SpecField,self).__init__()
 
-    #@-node:__init__
-    #@-others
-#@-node:class SpecField
-#@-others
-#@-node:@file D:\Arbeit\SXM\SXM\Data.py
-#@-leo
