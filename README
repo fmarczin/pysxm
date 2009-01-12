@@ -1,0 +1,6 @@
+PySXM is supposed to become a Python module for reading and working with
+scanning tunneling microscopy data.
+
+PySXM provides classes for STM data and some typical analysis routines.
+
+Right now, Omikron SCALA (*.par etc.) and TOPSystem formats can be read.
