@@ -1,4 +1,4 @@
-# Copyright 2008 Felix Marczinowski <fmarczin@physnet.uni-hamburg.de>
+# Copyright 2008,2009 Felix Marczinowski <fmarczin@physnet.uni-hamburg.de>
 #
 # This file is part of PySXM.
 #
@@ -15,17 +15,23 @@
 #    You should have received a copy of the GNU General Public License
 #    along with PySXM.  If not, see <http://www.gnu.org/licenses/>.
 #
-import unittest
-import Data
+""""Test module for SXM.Data"""
 
-class DataFieldTest(unittest.TestCase):
-   def setUp(self):
-      self.df = Data.DataField([-3, 1, 3, -1])
-      self.assertNotEqual(self.df, None)
+from SXM.Data import DataField
+import scipy
 
-   def testRange(self):
-      self.df.updateDataRange()
-      self.assertEqual([-3, 3], [self.df.dataMin, self.df.dataMax])
+def setup_module(m):
+    m.TestData.df = DataField([-3, 1, 3, -1])
 
-if __name__ == "__main__":
-   unittest.main()
+class TestData:
+
+    def test_inithasdatafield(self):
+        assert hasattr(self.df,'d')
+        
+    def test_initdisndarray(self):
+        n = scipy.array([])
+        assert (type(self.df.d) == type(n))
+
+    def test_range(self):
+        self.df.updateDataRange()
+        assert  ([-3, 3] == [self.df.dataMin, self.df.dataMax])

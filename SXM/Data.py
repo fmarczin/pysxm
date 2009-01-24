@@ -15,7 +15,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with PySXM.  If not, see <http://www.gnu.org/licenses/>.
 #
-
 """Data types and functions.
 @author: fm
 @version: $Rev: 123 $
@@ -42,7 +41,7 @@ class DataField(object):
     @type dataMax: number
     @ivar dataMin: minimum value of the data
     @type dataMin: number
-    @ivar ZScale:  physical unit (nm,nA,V) per data unit
+    @ivar ZScale:  physical value per raw data unit
     @type ZScale: number
     @ivar ZUnit: physical unit of the data 'nm','nA', or 'V'
     @type ZUnit: str
@@ -109,7 +108,7 @@ class DataField(object):
             self.findReader()
         if force or not self.headerLoaded:
             try:
-                # try-except is to ensure that self.header_read is only set
+                # try-except is to ensure that self.headerLoaded is only set
                 # if reading was successful
                 self.Reader.readHeader(self)
                 self.headerLoaded = True
@@ -137,7 +136,7 @@ class DataField(object):
             if force or not self.headerLoaded:
                 self.loadHeader(force)
             try:
-                # try-except is to ensure that self.header_read is only set
+                # try-except is to ensure that self.dataLoaded is only set
                 # if reading was successful
                 self.Reader.readData(self)
                 self.dataLoaded = True
