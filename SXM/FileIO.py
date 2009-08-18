@@ -26,7 +26,7 @@ import fnmatch
 def init():
     """Find all available format plugins.
     
-    This function must be called befor format plugins can be used.
+    This function must be called before format plugins can be used.
     It can be called again to search for plugin modules again.     
     """
     # plugin directory relative to directory we run from:
