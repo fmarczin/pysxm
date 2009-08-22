@@ -1,4 +1,4 @@
-PySXM is supposed to become a Python module for reading and working with
+PySXM is a Python module for reading and working with
 scanning tunneling microscopy data.
 
 PySXM provides classes for STM data and some typical analysis routines.
