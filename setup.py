@@ -1,8 +1,7 @@
-from setuptools import setup
+from distutils import setup
 
 setup(
-   name = "SXM", 
-   version = "0.1", 
-   install_requires = ['scipy>0.5.2'], 
-   packages = ['SXM'], 
+   name = "SXM",
+   version = "0.1",
+   packages = ['SXM'],
 )
